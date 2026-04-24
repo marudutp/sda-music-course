@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Recital - SDA Music Course</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #4A90E2; 
+            --accent-pink: #FF6B6B;
+            --accent-yellow: #FFD93D;
+            --text-dark: #2C3E50;
+            --white: #ffffff;
+            --bg-soft: #FDFBF7;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-color: var(--bg-soft);
+            color: var(--text-dark);
+            /* Background doodle tipis agar tidak sepi */
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNlMGUwZTAiIGZpbGwtb3BhY2l0eT0iMC4zIj48cGF0aCBkPSJNMzYgMzRWNmg0djI4aC00em0wIDRoNHY0aC00di00em0tOCAwaDR2NGgtNHYtNHptLTEyIDB4NHY0aC00di00em0tOCAwaDR2NGgtNHYtNHptLTQgMjhWNjRoNHYyOGgtNHptMCA0aDR2NGgtNHYtNHptLTggMjhWOTZoNHYyOGgtNHptMCA0aDR2NGgtNHYtNHptLSA0IDI4VjEyNGg0djI4aC00em0wIDRoNHY0aC00di00em0yOC00MGg0djRoLTR2LTR6bS04IDBoNHY0aC00di00em0tMTIgMHg0djRoLTR2LTR6bS04IDBoNHY0aC00di00em0tNCAyOGg0djRoLTR2LTR6bS04IDBoNHY0aC00di00em0tOCA4MGg0djRoLTR2LTR6bS00IDI4aDR2NGgtNHYtNHptMjgtMTIwaDR2NGgtLTR2LTR6bS04IDBoNHY0aC00di00em0tMTIgMHg0djRoLTR2LTR6bS04IDBoNHY0aC00di00em0tNCAyOGg0djRoLTR2LTR6bS04IDBoNHY0aC00di00em0tOCA4MGg0djRoLTR2LTR6bS00IDI4aDR2NGgtNHYtNHoiLz48L2c+PC9nPjwvc3ZnPg==');
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            padding: 30px 5%;
+            text-align: center;
+            color: white;
+            border-bottom: 8px solid var(--accent-yellow);
+        }
+
+        header h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 40px;
+            margin: 0;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Container Utama Galeri */
+        .gallery-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* Card Foto Style Komik */
+        .photo-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 4px solid var(--text-dark);
+            box-shadow: 8px 8px 0px var(--accent-yellow);
+            transition: transform 0.2s;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 4px solid var(--text-dark);
+        }
+
+        .photo-info {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-action {
+            background: #f0f0f0;
+            border: 2px solid var(--text-dark);
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: var(--accent-pink);
+            color: white;
+        }
+
+        .btn-action.liked {
+            background: var(--accent-pink);
+            color: white;
+        }
+
+        /* Navigasi Halaman */
+        .pagination {
+            margin: 50px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            font-family: 'Fredoka One', cursive;
+            padding: 12px 25px;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 0px #2980b9;
+            font-size: 16px;
+        }
+
+        .nav-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0px #2980b9;
+        }
+
+        .nav-btn:disabled {
+            background-color: #ccc;
+            box-shadow: 0 5px 0px #999;
+            cursor: not-allowed;
+        }
+
+        .page-info {
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--primary-blue);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 14px;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 600px) {
+            .photo-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 id="recital-title">Recital Gallery</h1>
+    <a href="../index.html" class="back-link">← Kembali ke Beranda</a>
+</header>
+
+<div class="gallery-container">
+    <div id="photo-grid" class="photo-grid">
+        </div>
+
+    <div class="pagination">
+        <button id="prevBtn" class="nav-btn" onclick="changePage(-1)">Kembali</button>
+        <span id="page-info" class="page-info">Halaman 1</span>
+        <button id="nextBtn" class="nav-btn" onclick="changePage(1)">Selanjutnya</button>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 SDA Music Course - Membangun Harmoni Anak Bangsa
+</footer>
+
+<script>
+    // 1. DATA FOTO - Sesuaikan URL foto di sini untuk tiap file HTML
+    const recitalPhotos = [
+        { id: 1, src: 'images/recital1_01.jpg' }, { id: 2, src: 'images/recital1_02.jpg' },
+        { id: 3, src: 'images/recital1_03.jpg' }, { id: 4, src: 'images/recital1_04.jpg' },
+        { id: 5, src: 'images/recital1_05.jpg' }, { id: 6, src: 'images/recital1_06.jpg' },
+        { id: 7, src: 'images/recital1_07.jpg' }, { id: 8, src: 'images/recital1_08.jpg' },
+        { id: 9, src: 'images/recital1_09.jpg' }, { id: 10, src: 'images/recital1_10.jpg' },
+        { id: 11, src: 'images/recital1_11.jpg' }, { id: 12, src: 'images/recital1_12.jpg' } 
+    ];
+
+    const photosPerPage = 10;
+    let currentPage = 1;
+
+    // 2. FUNGSI RENDER FOTO
+    function renderPhotos() {
+        const grid = document.getElementById('photo-grid');
+        grid.innerHTML = ""; // Bersihkan grid
+
+        const start = (currentPage - 1) * photosPerPage;
+        const end = start + photosPerPage;
+        const currentItems = recitalPhotos.slice(start, end);
+
+        currentItems.forEach(photo => {
+            const card = document.createElement('div');
+            card.className = 'photo-card';
+            card.innerHTML = `
+                <img src="${photo.src}" alt="Momen Recital" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Recital'">
+                <div class="photo-info">
+                    <button class="btn-action" onclick="toggleLike(this)">❤️ Like</button>
+                    <button class="btn-action" onclick="shareLink('${photo.src}')">🔗 Share</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        updatePaginationUI();
+    }
+
+    // 3. LOGIKA NAVIGASI
+    function changePage(step) {
+        const totalPages = Math.ceil(recitalPhotos.length / photosPerPage);
+        
+        // Cek jika klik Next di halaman terakhir
+        if (step === 1 && currentPage === totalPages) {
+            alert("Selesai, Lur! Ini adalah halaman terakhir. 😊");
+            return;
+        }
+
+        currentPage += step;
+        renderPhotos();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updatePaginationUI() {
+        const totalPages = Math.ceil(recitalPhotos.length / photosPerPage);
+        document.getElementById('page-info').innerText = `Halaman ${currentPage} / ${totalPages}`;
+        
+        // Disable tombol Back jika di hal 1
+        document.getElementById('prevBtn').disabled = (currentPage === 1);
+    }
+
+    // 4. FITUR LIKE & SHARE
+    function toggleLike(btn) {
+        btn.classList.toggle('liked');
+        if(btn.classList.contains('liked')) {
+            btn.innerText = "❤️ Liked!";
+        } else {
+            btn.innerText = "❤️ Like";
+        }
+    }
+
+    function shareLink(imgSrc) {
+        // Simulasi copy link foto
+        const dummyUrl = window.location.origin + "/" + imgSrc;
+        navigator.clipboard.writeText(dummyUrl).then(() => {
+            alert("Link foto berhasil disalin, Lur! Siap dibagikan ke WA.");
+        });
+    }
+
+    // Jalankan saat pertama load
+    document.addEventListener('DOMContentLoaded', renderPhotos);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDA Music Course - Ceria & Seimbang</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #4A90E2; 
+            --accent-pink: #FF6B6B;
+            --accent-yellow: #FFD93D;
+            --accent-green: #6BCB77;
+            --text-dark: #2C3E50;
+            --white: #ffffff;
+        }
+
+        body {
+            /* Perubahan Font: Fredoka One untuk kesan kekanak-kanakan, Montserrat untuk keterbacaan */
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            background-color: #FDFBF7;
+            line-height: 1.6;
+            /* Tambahan Pola Doodle Musik di Background Utama agar tidak sepi */
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNlMGUwZTAiIGZpbGwtb3BhY2l0eT0iMC4zIj48cGF0aCBkPSJNMzYgMzRWNmg0djI4aC00em0wIDRoNHY0aC00di00em0tOCAwaDR2NGgtNHYtNHptLTEyIDB4NHY0aC00di00em0tOCAwaDR2NGgtNHYtNHptLTQgMjhWNjRoNHYyOGgtNHptMCA0aDR2NGgtNHYtNHptLTggMjhWOTZoNHYyOGgtNHptMCA0aDR2NGgtNHYtNHptLSA0IDI4VjEyNGg0djI4aC00em0wIDRoNHY0aC00di00em0yOC00MGg0djRoLTR2LTR6bS04IDBoNHY0aC00di00em0tMTIgMHg0djRoLTR2LTR6bS04IDBoNHY0aC00di00em0tNCAyOGg0djRoLTR2LTR6bS04IDBoNHY0aC00di00em0tOCA4MGg0djRoLTR2LTR6bS00IDI4aDR2NGgtNHYtNHptMjgtMTIwaDR2NGgtLTR2LTR6bS04IDBoNHY0aC00di00em0tMTIgMHg0djRoLTR2LTR6bS04IDBoNHY0aC00di00em0tNCAyOGg0djRoLTR2LTR6bS04IDBoNHY0aC00di00em0tOCA4MGg0djRoLTR2LTR6bS00IDI4aDR2NGgtNHYtNHoiLz48L2c+PC9nPjwvc3ZnPg==');
+        }
+
+        h1, h2, h3 {
+            font-family: 'Fredoka One', cursive; /* Font Judul Playful */
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+
+        header {
+            background-color: var(--white);
+            padding: 15px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 5px solid var(--accent-yellow);
+        }
+
+        .logo {
+            font-size: 28px;
+            color: var(--primary-blue);
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+        }
+
+        nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 15px;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-pink);
+        }
+
+        .hero {
+            padding: 120px 10%;
+            text-align: center;
+            /* Perubahan Background: Gradient Ceria pastel */
+            background: linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%);
+            border-bottom-right-radius: 50px;
+            border-bottom-left-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+            line-height: 1.1;
+            text-shadow: 3px 3px 0px var(--white);
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .btn {
+            background-color: var(--accent-pink);
+            color: white;
+            padding: 18px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Fredoka One', cursive;
+            font-size: 18px;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 6px 0px #C0392B; /* Efek tombol 3D */
+        }
+
+        .btn:hover {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0px #C0392B;
+        }
+
+        .mission-section {
+            padding: 100px 10%;
+            background-color: rgba(255, 255, 255, 0.9);
+            margin: -30px 20px 0;
+            border-radius: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 40px;
+            text-align: center;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            text-align: center;
+            font-size: 18px;
+            color: #777;
+            margin-bottom: 50px;
+        }
+
+        .mission-flex {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .mission-card {
+            flex: 1;
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            border: 3px solid transparent;
+            transition: transform 0.3s;
+        }
+
+        .mission-card:hover {
+            transform: scale(1.03);
+        }
+
+        /* Warna berbeda untuk tiap misi */
+        .m-kiri { background-color: #E3F2FD; border-color: var(--primary-blue); }
+        .m-kanan { background-color: #FFEBEE; border-color: var(--accent-pink); }
+
+        .m-icon { font-size: 50px; margin-bottom: 20px; display: block; }
+
+        .programs-section {
+            padding: 100px 10%;
+        }
+
+        .program-grid {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .program-item {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 230px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Dekorasi balon di pojok kartu program */
+        .program-item::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-yellow);
+            border-radius: 50%;
+            top: -20px;
+            right: -20px;
+            opacity: 0.5;
+        }
+
+        .program-item h3 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .p-piano h3 { color: var(--primary-blue); }
+        .p-gitar h3 { color: var(--accent-green); }
+        .p-drum h3 { color: var(--accent-pink); }
+
+        .p-icon { font-size: 40px; margin-bottom: 15px; display: block;}
+
+        .gallery-section {
+            padding: 100px 10%;
+            background-color: #4A90E2; /* Background Galeri Warna Biru Cerah agar "Rame" */
+            border-radius: 50px;
+            color: white;
+        }
+
+        .gallery-section .section-title h2 { color: white; }
+        .gallery-section .section-title p { color: #eee; }
+
+        .gallery-grid {
+            display: flex;
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .gallery-card {
+            flex: 1;
+            height: 320px;
+            border-radius: 25px;
+            background-color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 25px;
+            color: var(--text-dark);
+            border: 5px solid var(--accent-yellow);
+            box-shadow: 0 10px 0px rgba(0,0,0,0.1);
+        }
+
+        .gallery-card span {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #999;
+        }
+
+        .gallery-card h4 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 20px;
+            margin: 5px 0 0;
+            color: var(--text-dark);
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 80px 10%;
+            text-align: center;
+            margin-top: 50px;
+            border-top: 8px solid var(--accent-pink);
+        }
+
+        .whatsapp-btn {
+            background-color: #25D366;
+            margin-top: 20px;
+            box-shadow: 0 6px 0px #1E7E34;
+        }
+        .whatsapp-btn:hover { box-shadow: 0 3px 0px #1E7E34; }
+
+        @media (max-width: 768px) {
+            .mission-flex, .program-grid, .gallery-grid { flex-direction: column; }
+            .hero h1 { font-size: 38px; }
+            .mission-section { margin: -30px 10px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">SDA Music 🎵</div>
+    <nav>
+        <a href="#mission">Misi</a>
+        <a href="#programs">Program</a>
+        <a href="#gallery">Recital</a>
+        <a href="#contact">Daftar</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Main Musik Ceria,<br>Otak Pintar Seimbang!</h1>
+    <p>Tempat paling seru buat adik-adik mulai belajar musik. Otak kanan & kiri jadi seimbang, hati pun senang!</p>
+    <a href="https://wa.me/+6287809657300" class="btn">Hubungi Kami di WhatsApp 📱</a>
+    
+        
+    </a>
+</section>
+
+<section id="mission" class="mission-section">
+    <div class="section-title">
+        <h2>Misi Ajaib Kami</h2>
+        <p>Bikin anak mengerti musik seutuhnya dengan cara yang menyenangkan.</p>
+    </div>
+    <div class="mission-flex">
+        <div class="mission-card m-kiri">
+            <span class="m-icon">🧠</span>
+            <h3>Otak Kiri</h3>
+            <p><strong>(Logika & Fokus)</strong><br>Belajar not balok, tempo, dan teori musik agar anak makin teliti.</p>
+        </div>
+        <div class="mission-card m-kanan">
+            <span class="m-icon">🎨</span>
+            <h3>Otak Kanan</h3>
+            <p><strong>(Kreativitas & Perasaan)</strong><br>Bebas berekspresi, improvisasi, dan bikin lagu sendiri.</p>
+        </div>
+    </div>
+</section>
+
+<section id="programs" class="programs-section">
+    <div class="section-title">
+        <h2>Pilih Alat Musikmu!</h2>
+    </div>
+    <div class="program-grid">
+        <div class="program-item p-piano">
+            <span class="p-icon">🎹</span>
+            <h3>Piano</h3>
+            <p>Klasik & Modern</p>
+        </div>
+        <div class="program-item p-gitar">
+            <span class="p-icon">🎸</span>
+            <h3>Gitar</h3>
+            <p>Asyik Dipetik</p>
+        </div>
+        <div class="program-item p-drum">
+            <span class="p-icon">🥁</span>
+            <h3>Drum</h3>
+            <p>Gelegar Ritme!</p>
+        </div>
+    </div>
+</section>
+
+<section id="gallery" class="gallery-section">
+    <div class="section-title">
+        <h2>Panggung Bintang Kita</h2>
+        <p>Sudah 3 kali kita merayakan keberanian berani tampil di panggung RECITAL!</p>
+    </div>
+    <div class="gallery-grid">
+        <div class="gallery-card">
+            <span>KEBERANIAN PERDANA</span>
+            <h4>Recital #1: The Beginning</h4>
+        </div>
+        <div class="gallery-card">
+            <span>HARMONI BERSAMA</span>
+            <h4>Recital #2: Harmony in Motion</h4>
+        </div>
+        <div class="gallery-card">
+            <span>DENTUMAN BESAR</span>
+            <h4>Recital #3: Grand Melodies & Beats</h4>
+        </div>
+    </div>
+</section>
+
+<footer id="contact">
+    <h2>Ayah & Bunda, Mulai Sekarang Yuk!</h2>
+    <p>SDA Music adalah tempat awal yang paling nyaman untuk bakat musik anak.</p>
+    <a href="#" class="btn whatsapp-btn">Tanya Admin (WA) 📱</a>
+    <div style="margin-top: 50px; font-size: 13px; opacity: 0.6; font-weight: 600;">
+        &copy; 2026 SDA Music Course. All Rights Reserved.
+    </div>
+</footer>
+
+</body>
+</html>
