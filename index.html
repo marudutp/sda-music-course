@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SDA Music Course - Belajar Musik Seru & Seimbang</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary-blue: #4A90E2;
@@ -33,7 +34,9 @@
             background-position: center;
         }
 
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             font-family: 'Fredoka One', cursive;
             font-weight: normal;
         }
@@ -52,9 +55,22 @@
             border-bottom: 5px solid var(--accent-yellow);
         }
 
-        .logo { font-size: 28px; color: var(--primary-blue); }
-        nav a { margin-left: 20px; text-decoration: none; color: var(--text-dark); font-weight: 700; transition: color 0.3s; }
-        nav a:hover { color: var(--accent-pink); }
+        .logo {
+            font-size: 28px;
+            color: var(--primary-blue);
+        }
+
+        nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-pink);
+        }
 
         /* --- Hero Section --- */
         .hero {
@@ -109,8 +125,13 @@
             align-items: flex-start;
         }
 
-        .mission-side { flex: 1.2; }
-        .faq-side { flex: 0.8; }
+        .mission-side {
+            flex: 1.2;
+        }
+
+        .faq-side {
+            flex: 0.8;
+        }
 
         .mission-card {
             padding: 35px;
@@ -122,9 +143,19 @@
             transition: transform 0.3s;
         }
 
-        .mission-card:hover { transform: scale(1.02); }
-        .m-kiri { border-color: var(--primary-blue); background-color: #f0f7ff; }
-        .m-kanan { border-color: var(--accent-pink); background-color: #fff0f0; }
+        .mission-card:hover {
+            transform: scale(1.02);
+        }
+
+        .m-kiri {
+            border-color: var(--primary-blue);
+            background-color: #f0f7ff;
+        }
+
+        .m-kanan {
+            border-color: var(--accent-pink);
+            background-color: #fff0f0;
+        }
 
         /* FAQ Accordion Details */
         .faq-item {
@@ -162,7 +193,11 @@
         }
 
         /* --- Teacher Slider --- */
-        .teacher-section { padding: 80px 10%; text-align: center; }
+        .teacher-section {
+            padding: 80px 10%;
+            text-align: center;
+        }
+
         .teacher-slider {
             max-width: 800px;
             margin: 40px auto;
@@ -189,7 +224,11 @@
             box-sizing: border-box;
         }
 
-        .teacher-slide.active { opacity: 1; z-index: 5; }
+        .teacher-slide.active {
+            opacity: 1;
+            z-index: 5;
+        }
+
         .teacher-slide img {
             width: 180px;
             height: 180px;
@@ -209,19 +248,39 @@
         }
 
         /* --- Program & Gallery --- */
-        .programs-section { padding: 80px 10%; text-align: center; }
-        .program-grid { display: flex; gap: 25px; justify-content: center; margin: 40px 0; flex-wrap: wrap; }
+        .programs-section {
+            padding: 80px 10%;
+            text-align: center;
+        }
+
+        .program-grid {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
         .program-card {
             background: white;
             padding: 35px;
             border-radius: 25px;
             width: 220px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
             border-bottom: 8px solid var(--accent-yellow);
         }
 
-        .gallery-section { padding: 80px 10%; text-align: center; }
-        .gallery-grid { display: flex; gap: 25px; margin-top: 50px; }
+        .gallery-section {
+            padding: 80px 10%;
+            text-align: center;
+        }
+
+        .gallery-grid {
+            display: flex;
+            gap: 25px;
+            margin-top: 50px;
+        }
+
         .gallery-card {
             flex: 1;
             background: white;
@@ -238,10 +297,20 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .gallery-card:hover { transform: scale(1.05) rotate(2deg); }
+        .gallery-card:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
 
         /* --- Footer --- */
-        footer { padding: 100px 10%; text-align: center; background-color: #FEF5E7; color: #2C3E50; margin-top: 80px; border-radius: 60px 60px 0 0; }
+        footer {
+            padding: 100px 10%;
+            text-align: center;
+            background-color: #FEF5E7;
+            color: #2C3E50;
+            margin-top: 80px;
+            border-radius: 60px 60px 0 0;
+        }
+
         .address-box {
             margin: 40px auto;
             padding: 30px;
@@ -264,9 +333,19 @@
         }
 
         @media (max-width: 992px) {
-            .info-container, .gallery-grid { flex-direction: column; }
-            .hero h1 { font-size: 38px; }
-            .teacher-slider { height: 500px; }
+
+            .info-container,
+            .gallery-grid {
+                flex-direction: column;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .teacher-slider {
+                height: 500px;
+            }
         }
     </style>
 </head>
@@ -284,7 +363,8 @@
 
     <section class="hero">
         <h1>Musik Itu Menyenangkan,<br>Otak Seimbang Itu Hebat!</h1>
-        <p>Mari bimbing si kecil memahami musik seutuhnya di SDA Music. Konsultasikan jadwal dan bakat anak Anda bersama kami.</p>
+        <p>Mari bimbing si kecil memahami musik seutuhnya di SDA Music. Konsultasikan jadwal dan bakat anak Anda bersama
+            kami.</p>
         <a href="https://wa.me/6287809657300" class="btn-wa">Hubungi Kami di WhatsApp 📱</a>
     </section>
 
@@ -294,12 +374,14 @@
             <div class="mission-card m-kiri">
                 <span style="font-size: 55px;">🧠</span>
                 <h3>Otak Kiri (Logika)</h3>
-                <p>Anak belajar ketelitian melalui teori musik dan tempo yang presisi untuk melatih ketajaman fokus dan logika.</p>
+                <p>Anak belajar ketelitian melalui teori musik dan tempo yang presisi untuk melatih ketajaman fokus dan
+                    logika.</p>
             </div>
             <div class="mission-card m-kanan">
                 <span style="font-size: 55px;">🎨</span>
                 <h3>Otak Kanan (Rasa)</h3>
-                <p>Anak bebas berekspresi dan mengasah kreativitas melalui instrumen untuk membangun kepercayaan diri yang tinggi.</p>
+                <p>Anak bebas berekspresi dan mengasah kreativitas melalui instrumen untuk membangun kepercayaan diri
+                    yang tinggi.</p>
             </div>
         </div>
 
@@ -311,11 +393,30 @@
             </div>
             <div class="faq-item">
                 <div class="faq-question">Berapa kali pertemuan? <span>▼</span></div>
-                <div class="faq-answer">Standar kami adalah 4 kali sebulan (seminggu sekali) dengan durasi 30 menit.</div>
+                <div class="faq-answer">Standar kami adalah 4 kali sebulan (seminggu sekali) dengan durasi 30 menit.
+                </div>
             </div>
             <div class="faq-item">
                 <div class="faq-question">Bisa reschedule? <span>▼</span></div>
-                <div class="faq-answer">Bisa banget, Lur! Informasikan admin minimal 1 hari sebelumnya ya supaya jadwal bisa diatur ulang.</div>
+                <div class="faq-answer">Bisa banget, Lur! Informasikan admin minimal 1 hari sebelumnya ya supaya jadwal
+                    bisa diatur ulang.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Apakah ada ujian? <span>▼</span></div>
+                <div class="faq-answer">Ada! Kami memberikan ujian apresiasi berupa penampilan siswa tampil di Recital
+                    dan naik ke level pembelajaran berikutnya.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Apakah anak harus belajar teori/not balok? <span>▼</span></div>
+                <div class="faq-answer">Tentu. Kami mengajarkan musik secara utuh agar logika (otak kiri) dan
+                    kreativitas (otak kanan) anak berkembang seimbang.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Bolehkan orang tua menunggu saat kelas? <span>▼</span></div>
+                <div class="faq-answer">Boleh banget, Lur! Kami menyediakan ruang tunggu yang nyaman agar Ayah & Bunda
+                    bisa melihat perkembangan si kecil.</div>
             </div>
         </div>
     </section>
@@ -324,7 +425,8 @@
         <h2 style="font-size: 40px;">Kenalan Sama Guru Kita! 👨‍🏫</h2>
         <div class="teacher-slider">
             <div class="teacher-slide active">
-                <img src="images/guru1.jpg" alt="Guru Piano" onerror="this.src='https://via.placeholder.com/200?text=Kak+Sintha'">
+                <img src="images/guru1.jpg" alt="Guru Piano"
+                    onerror="this.src='https://via.placeholder.com/200?text=Kak+Sintha'">
                 <div class="teacher-cv">
                     <span class="teacher-badge">Piano Expert</span>
                     <h3>Miss Sintha</h3>
@@ -332,19 +434,23 @@
                 </div>
             </div>
             <div class="teacher-slide">
-                <img src="images/guru2.jpg" alt="Guru Gitar" onerror="this.src='https://via.placeholder.com/200?text=Kak+Maru'">
+                <img src="images/guru2.jpg" alt="Guru Gitar"
+                    onerror="this.src='https://via.placeholder.com/200?text=Kak+Maru'">
                 <div class="teacher-cv">
                     <span class="teacher-badge">Guitar Master</span>
                     <h3>Om Maru</h3>
-                    <p>"Fokus pada pengembangan kreativitas dan rasa melalui eksplorasi senar gitar akustik maupun elektrik."</p>
+                    <p>"Fokus pada pengembangan kreativitas dan rasa melalui eksplorasi senar gitar akustik maupun
+                        elektrik."</p>
                 </div>
             </div>
             <div class="teacher-slide">
-                <img src="images/guru3.jpg" alt="Guru Drum" onerror="this.src='https://via.placeholder.com/200?text=Kak+Mario'">
+                <img src="images/guru3.jpg" alt="Guru Drum"
+                    onerror="this.src='https://via.placeholder.com/200?text=Kak+Mario'">
                 <div class="teacher-cv">
                     <span class="teacher-badge">Rhythm Leader</span>
                     <h3>Kak Mario</h3>
-                    <p>"Melatih koordinasi motorik otak kiri & kanan lewat ketukan drum yang enerjik dan menyenangkan."</p>
+                    <p>"Melatih koordinasi motorik otak kiri & kanan lewat ketukan drum yang enerjik dan menyenangkan."
+                    </p>
                 </div>
             </div>
         </div>
@@ -353,19 +459,39 @@
     <section id="programs" class="programs-section">
         <h2>Program Musik Seru</h2>
         <div class="program-grid">
-            <div class="program-card"><span style="font-size: 50px;">🎹</span><h3>Piano</h3></div>
-            <div class="program-card"><span style="font-size: 50px;">🎸</span><h3>Gitar</h3></div>
-            <div class="program-card"><span style="font-size: 50px;">🥁</span><h3>Drum</h3></div>
+            <div class="program-card"><span style="font-size: 50px;">🎹</span>
+                <h3>Piano</h3>
+            </div>
+            <div class="program-card"><span style="font-size: 50px;">🎸</span>
+                <h3>Gitar</h3>
+            </div>
+            <div class="program-card"><span style="font-size: 50px;">🥁</span>
+                <h3>Drum</h3>
+            </div>
         </div>
-        <a href="https://wa.me/6287809657300" style="color: var(--primary-blue); font-weight: bold; text-decoration: none; font-size: 1.2em;">Tanya Detail Program & Harga →</a>
+        <a href="https://wa.me/6287809657300"
+            style="color: var(--primary-blue); font-weight: bold; text-decoration: none; font-size: 1.2em;">Tanya Detail
+            Program & Harga →</a>
     </section>
 
     <section id="gallery" class="gallery-section">
         <h2>Panggung Bintang Kita ⭐</h2>
         <div class="gallery-grid">
-            <a href="recital1/index.html" style="flex: 1;"><div class="gallery-card"><h3>Recital #1</h3><span>Lihat Foto →</span></div></a>
-            <a href="recital2/index.html" style="flex: 1;"><div class="gallery-card"><h3>Recital #2</h3><span>Lihat Foto →</span></div></a>
-            <a href="recital3/index.html" style="flex: 1;"><div class="gallery-card"><h3>Recital #3</h3><span>Lihat Foto →</span></div></a>
+            <a href="recital1/index.html" style="flex: 1;">
+                <div class="gallery-card">
+                    <h3>Recital #1</h3><span>Lihat Foto →</span>
+                </div>
+            </a>
+            <a href="recital2/index.html" style="flex: 1;">
+                <div class="gallery-card">
+                    <h3>Recital #2</h3><span>Lihat Foto →</span>
+                </div>
+            </a>
+            <a href="recital3/index.html" style="flex: 1;">
+                <div class="gallery-card">
+                    <h3>Recital #3</h3><span>Lihat Foto →</span>
+                </div>
+            </a>
         </div>
     </section>
 
@@ -377,7 +503,8 @@
             <h3>Lokasi Kami</h3>
             <p>Komplek Bukit Dago, Blok BDU no. 78</p>
             <p>Rawakalong, Kec. Gunung Sindur, Bogor</p>
-            <a href="https://maps.app.goo.gl/u7bLpZttpyX65VhN6" target="_blank" class="qr-link">📍 Petunjuk Google Maps</a>
+            <a href="https://maps.app.goo.gl/u7bLpZttpyX65VhN6" target="_blank" class="qr-link">📍 Petunjuk Google
+                Maps</a>
         </div>
         <p style="margin-top: 40px; opacity: 0.6;">© 2026 SDA Music Course. Musik Seutuhnya.</p>
     </footer>
@@ -402,4 +529,5 @@
         setInterval(rotateTeachers, 7000);
     </script>
 </body>
+
 </html>
