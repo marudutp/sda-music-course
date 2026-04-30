@@ -1,86 +1,24 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengumuman - SDA Music Course</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         /* Pakai style yang sama dengan index.html agar konsisten */
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #FDFBF7;
-            padding: 40px 10%;
-            color: #2C3E50;
-        }
-
-        h1 {
-            font-family: 'Fredoka One', cursive;
-            color: #4A90E2;
-            text-align: center;
-            font-size: 42px;
-        }
-
-        .announcement-container {
-            max-width: 800px;
-            margin: 40px auto;
-        }
-
-        .post {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            border: 3px solid #eee;
-            margin-bottom: 20px;
-            box-shadow: 8px 8px 0px #FFD93D;
-        }
-
-        .post-date {
-            font-weight: bold;
-            color: #FF6B6B;
-            font-size: 14px;
-        }
-
-        .post-title {
-            font-family: 'Fredoka One', cursive;
-            margin: 10px 0;
-            color: #4A90E2;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .nav-btn {
-            background: #4A90E2;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Fredoka One', cursive;
-        }
-
-        .nav-btn:disabled {
-            background: #ccc;
-        }
-
-        .back-home {
-            display: block;
-            text-align: center;
-            margin-bottom: 20px;
-            text-decoration: none;
-            font-weight: bold;
-            color: #4A90E2;
-        }
+        body { font-family: 'Montserrat', sans-serif; background-color: #FDFBF7; padding: 40px 10%; color: #2C3E50; }
+        h1 { font-family: 'Fredoka One', cursive; color: #4A90E2; text-align: center; font-size: 42px; }
+        .announcement-container { max-width: 800px; margin: 40px auto; }
+        .post { background: white; padding: 30px; border-radius: 20px; border: 3px solid #eee; margin-bottom: 20px; box-shadow: 8px 8px 0px #FFD93D; }
+        .post-date { font-weight: bold; color: #FF6B6B; font-size: 14px; }
+        .post-title { font-family: 'Fredoka One', cursive; margin: 10px 0; color: #4A90E2; }
+        .pagination { display: flex; justify-content: center; gap: 20px; margin-top: 40px; }
+        .nav-btn { background: #4A90E2; color: white; border: none; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-family: 'Fredoka One', cursive; }
+        .nav-btn:disabled { background: #ccc; }
+        .back-home { display: block; text-align: center; margin-bottom: 20px; text-decoration: none; font-weight: bold; color: #4A90E2; }
     </style>
 </head>
-
 <body>
 
     <a href="index.html" class="back-home">← Kembali ke Beranda</a>
@@ -99,46 +37,47 @@
     <script>
         // MASUKKAN LINK CSV GOOGLE SHEETS KAMU DI SINI LUR
         const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJp2RZUbJ5DYvRkQIUlMgia__-rqzJ561BQXPvB-U60-zYYv__K7AqCxSos--n3qBWFydp8wtmgbeK/pub?output=csv';
-
+        
         let allData = [];
         let currentPage = 1;
         const limit = 5;
 
         async function fetchData() {
-            try {
-                const response = await fetch(spreadsheetUrl);
-                const data = await response.text();
+    try {
+        const response = await fetch(spreadsheetUrl);
+        const data = await response.text();
+        
+        // Pisahkan per baris dan bersihkan baris kosong
+        const rows = data.split(/\r?\n/).filter(row => row.trim() !== "");
+        // Buang header (baris pertama)
+        const contentRows = rows.slice(1); 
 
-                // Memisahkan baris, abaikan baris pertama (header)
-                const rows = data.split(/\r?\n/).slice(1);
-
-                allData = rows.map(row => {
-                    // Teknik parsing CSV sederhana: memisahkan berdasarkan ","
-                    // Namun kita bersihkan tanda kutip manual agar teks utuh
-                    const columns = row.split('","');
-
-                    if (columns.length >= 3) {
-                        return {
-                            // Membersihkan sisa tanda kutip di awal dan akhir kolom
-                            tanggal: columns[0].replace(/"/g, ''),
-                            judul: columns[1].replace(/"/g, ''),
-                            isi: columns[2].replace(/"/g, '')
-                        };
-                    }
-                    return null;
-                }).filter(item => item !== null).reverse();
-
-                renderPage();
-            } catch (error) {
-                console.error("Error Lur: ", error);
-                document.getElementById('announcement-list').innerHTML = "Gagal memuat data, Lur.";
+        allData = contentRows.map(row => {
+            // Regex ini akan memisahkan koma, tapi mengabaikan koma di dalam tanda kutip
+            // Ini standar emas untuk membaca CSV manual
+            const matches = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+            
+            if (matches && matches.length >= 3) {
+                return { 
+                    tanggal: matches[0].replace(/^"|"$/g, '').trim(), 
+                    judul: matches[1].replace(/^"|"$/g, '').trim(), 
+                    isi: matches[2].replace(/^"|"$/g, '').trim() 
+                };
             }
-        }
+            return null;
+        }).filter(item => item !== null).reverse();
+
+        renderPage();
+    } catch (error) {
+        console.error("Waduh Error Lur: ", error);
+        document.getElementById('announcement-list').innerHTML = "Gagal memuat data, Lur.";
+    }
+}
 
         function renderPage() {
             const list = document.getElementById('announcement-list');
             list.innerHTML = "";
-
+            
             const start = (currentPage - 1) * limit;
             const end = start + limit;
             const pageData = allData.slice(start, end);
@@ -165,11 +104,10 @@
         function changePage(direction) {
             currentPage += direction;
             renderPage();
-            window.scrollTo(0, 0);
+            window.scrollTo(0,0);
         }
 
         fetchData();
     </script>
 </body>
-
 </html>
