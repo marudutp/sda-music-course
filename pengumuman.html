@@ -1,24 +1,86 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengumuman - SDA Music Course</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat:wght@400;600;700&display=swap"
+        rel="stylesheet">
     <style>
         /* Pakai style yang sama dengan index.html agar konsisten */
-        body { font-family: 'Montserrat', sans-serif; background-color: #FDFBF7; padding: 40px 10%; color: #2C3E50; }
-        h1 { font-family: 'Fredoka One', cursive; color: #4A90E2; text-align: center; font-size: 42px; }
-        .announcement-container { max-width: 800px; margin: 40px auto; }
-        .post { background: white; padding: 30px; border-radius: 20px; border: 3px solid #eee; margin-bottom: 20px; box-shadow: 8px 8px 0px #FFD93D; }
-        .post-date { font-weight: bold; color: #FF6B6B; font-size: 14px; }
-        .post-title { font-family: 'Fredoka One', cursive; margin: 10px 0; color: #4A90E2; }
-        .pagination { display: flex; justify-content: center; gap: 20px; margin-top: 40px; }
-        .nav-btn { background: #4A90E2; color: white; border: none; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-family: 'Fredoka One', cursive; }
-        .nav-btn:disabled { background: #ccc; }
-        .back-home { display: block; text-align: center; margin-bottom: 20px; text-decoration: none; font-weight: bold; color: #4A90E2; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FDFBF7;
+            padding: 40px 10%;
+            color: #2C3E50;
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: #4A90E2;
+            text-align: center;
+            font-size: 42px;
+        }
+
+        .announcement-container {
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .post {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            border: 3px solid #eee;
+            margin-bottom: 20px;
+            box-shadow: 8px 8px 0px #FFD93D;
+        }
+
+        .post-date {
+            font-weight: bold;
+            color: #FF6B6B;
+            font-size: 14px;
+        }
+
+        .post-title {
+            font-family: 'Fredoka One', cursive;
+            margin: 10px 0;
+            color: #4A90E2;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .nav-btn {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Fredoka One', cursive;
+        }
+
+        .nav-btn:disabled {
+            background: #ccc;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #4A90E2;
+        }
     </style>
 </head>
+
 <body>
 
     <a href="index.html" class="back-home">← Kembali ke Beranda</a>
@@ -35,49 +97,68 @@
     </div>
 
     <script>
-        // MASUKKAN LINK CSV GOOGLE SHEETS KAMU DI SINI LUR
-        const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJp2RZUbJ5DYvRkQIUlMgia__-rqzJ561BQXPvB-U60-zYYv__K7AqCxSos--n3qBWFydp8wtmgbeK/pub?output=csv';
-        
+        const spreadsheetUrl = 'LINK_CSV_KAMU_DI_SINI_LUR'; // Pastikan link CSV benar!
+
         let allData = [];
         let currentPage = 1;
         const limit = 5;
 
-        async function fetchData() {
-    try {
-        const response = await fetch(spreadsheetUrl);
-        const data = await response.text();
-        
-        // Pisahkan per baris dan bersihkan baris kosong
-        const rows = data.split(/\r?\n/).filter(row => row.trim() !== "");
-        // Buang header (baris pertama)
-        const contentRows = rows.slice(1); 
+        // Fungsi Parser CSV yang cerdas (Mencegah teks terpotong koma/kutip)
+        function parseCSVLine(line) {
+            let result = [];
+            let curValue = "";
+            let insideQuote = false;
 
-        allData = contentRows.map(row => {
-            // Regex ini akan memisahkan koma, tapi mengabaikan koma di dalam tanda kutip
-            // Ini standar emas untuk membaca CSV manual
-            const matches = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-            
-            if (matches && matches.length >= 3) {
-                return { 
-                    tanggal: matches[0].replace(/^"|"$/g, '').trim(), 
-                    judul: matches[1].replace(/^"|"$/g, '').trim(), 
-                    isi: matches[2].replace(/^"|"$/g, '').trim() 
-                };
+            for (let i = 0; i < line.length; i++) {
+                let char = line[i];
+                if (char === '"') {
+                    insideQuote = !insideQuote;
+                } else if (char === ',' && !insideQuote) {
+                    result.push(curValue.trim());
+                    curValue = "";
+                } else {
+                    curValue += char;
+                }
             }
-            return null;
-        }).filter(item => item !== null).reverse();
+            result.push(curValue.trim());
+            // Bersihkan sisa tanda kutip di awal/akhir teks
+            return result.map(val => val.replace(/^"|"$/g, '').trim());
+        }
 
-        renderPage();
-    } catch (error) {
-        console.error("Waduh Error Lur: ", error);
-        document.getElementById('announcement-list').innerHTML = "Gagal memuat data, Lur.";
-    }
-}
+        async function fetchData() {
+            try {
+                const response = await fetch(spreadsheetUrl);
+                const data = await response.text();
+
+                // Pisahkan per baris, abaikan baris kosong dan header
+                const rows = data.split(/\r?\n/).filter(row => row.trim() !== "");
+                const contentRows = rows.slice(1);
+
+                allData = contentRows.map(row => {
+                    const columns = parseCSVLine(row);
+
+                    // Pastikan ada 3 kolom (Tanggal, Judul, Isi)
+                    if (columns.length >= 3) {
+                        return {
+                            tanggal: columns[0],
+                            judul: columns[1],
+                            isi: columns[2]
+                        };
+                    }
+                    return null;
+                }).filter(item => item !== null).reverse();
+
+                renderPage();
+            } catch (error) {
+                console.error("Error Lur: ", error);
+                document.getElementById('announcement-list').innerHTML = "Gagal memuat data, Lur.";
+            }
+        }
 
         function renderPage() {
             const list = document.getElementById('announcement-list');
             list.innerHTML = "";
-            
+
             const start = (currentPage - 1) * limit;
             const end = start + limit;
             const pageData = allData.slice(start, end);
@@ -89,12 +170,12 @@
 
             pageData.forEach(item => {
                 list.innerHTML += `
-                    <div class="post">
-                        <div class="post-date">${item.tanggal}</div>
-                        <h2 class="post-title">${item.judul}</h2>
-                        <p>${item.isi}</p>
-                    </div>
-                `;
+                <div class="post">
+                    <div class="post-date">${item.tanggal}</div>
+                    <h2 class="post-title" style="color: #4A90E2; font-family: 'Fredoka One';">${item.judul}</h2>
+                    <p>${item.isi}</p>
+                </div>
+            `;
             });
 
             document.getElementById('prevBtn').disabled = currentPage === 1;
@@ -104,10 +185,11 @@
         function changePage(direction) {
             currentPage += direction;
             renderPage();
-            window.scrollTo(0,0);
+            window.scrollTo(0, 0);
         }
 
         fetchData();
     </script>
 </body>
+
 </html>
