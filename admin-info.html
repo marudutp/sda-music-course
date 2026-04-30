@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>Admin - Input Pengumuman</title>
+    <style>
+        body { font-family: sans-serif; padding: 50px; line-height: 1.6; }
+        .form-box { border: 2px solid #4A90E2; padding: 20px; border-radius: 10px; max-width: 400px; }
+        input, textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
+        button { background: #25D366; color: white; border: none; padding: 10px; width: 100%; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h2>Admin SDA Music 🛠️</h2>
+    <p>Gunakan form ini untuk merangkai teks, lalu copy-paste ke baris baru di Google Sheets.</p>
+    <div class="form-box">
+        <input type="text" id="tgl" placeholder="Tanggal (Contoh: 30 April 2026)">
+        <input type="text" id="judul" placeholder="Judul Pengumuman">
+        <textarea id="isi" rows="5" placeholder="Isi Pengumuman"></textarea>
+        <button onclick="publishNow()">Generate Baris Baru</button>
+    </div>
+    
+    <div id="result" style="margin-top: 20px; display: none;">
+        <p>Copy baris di bawah ini dan paste ke Google Sheets paling bawah:</p>
+        <code id="csvLine" style="background: #eee; padding: 10px; display: block;"></code>
+    </div>
+
+    <script>
+        function publishNow() {
+            const tgl = document.getElementById('tgl').value;
+            const judul = document.getElementById('judul').value;
+            const isi = document.getElementById('isi').value;
+            
+            if(!tgl || !judul || !isi) return alert("Isi semua dulu Lur!");
+
+            const line = `"${tgl}","${judul}","${isi}"`;
+            document.getElementById('csvLine').innerText = line;
+            document.getElementById('result').style.display = 'block';
+            alert("Pengumuman sudah ready! Silakan copy baris di bawah ke Google Sheets.");
+        }
+    </script>
+</body>
+</html>
