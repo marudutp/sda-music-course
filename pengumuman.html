@@ -97,52 +97,33 @@
     </div>
 
     <script>
-        const spreadsheetUrl = 'LINK_CSV_KAMU_DI_SINI_LUR'; // Pastikan link CSV benar!
+        // MASUKKAN LINK CSV GOOGLE SHEETS KAMU DI SINI LUR
+        const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJp2RZUbJ5DYvRkQIUlMgia__-rqzJ561BQXPvB-U60-zYYv__K7AqCxSos--n3qBWFydp8wtmgbeK/pub?output=csv';
 
         let allData = [];
         let currentPage = 1;
         const limit = 5;
-
-        // Fungsi Parser CSV yang cerdas (Mencegah teks terpotong koma/kutip)
-        function parseCSVLine(line) {
-            let result = [];
-            let curValue = "";
-            let insideQuote = false;
-
-            for (let i = 0; i < line.length; i++) {
-                let char = line[i];
-                if (char === '"') {
-                    insideQuote = !insideQuote;
-                } else if (char === ',' && !insideQuote) {
-                    result.push(curValue.trim());
-                    curValue = "";
-                } else {
-                    curValue += char;
-                }
-            }
-            result.push(curValue.trim());
-            // Bersihkan sisa tanda kutip di awal/akhir teks
-            return result.map(val => val.replace(/^"|"$/g, '').trim());
-        }
 
         async function fetchData() {
             try {
                 const response = await fetch(spreadsheetUrl);
                 const data = await response.text();
 
-                // Pisahkan per baris, abaikan baris kosong dan header
+                // Pisahkan per baris dan bersihkan baris kosong
                 const rows = data.split(/\r?\n/).filter(row => row.trim() !== "");
+                // Buang header (baris pertama)
                 const contentRows = rows.slice(1);
 
                 allData = contentRows.map(row => {
-                    const columns = parseCSVLine(row);
+                    // Regex ini akan memisahkan koma, tapi mengabaikan koma di dalam tanda kutip
+                    // Ini standar emas untuk membaca CSV manual
+                    const matches = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
 
-                    // Pastikan ada 3 kolom (Tanggal, Judul, Isi)
-                    if (columns.length >= 3) {
+                    if (matches && matches.length >= 3) {
                         return {
-                            tanggal: columns[0],
-                            judul: columns[1],
-                            isi: columns[2]
+                            tanggal: matches[0].replace(/^"|"$/g, '').trim(),
+                            judul: matches[1].replace(/^"|"$/g, '').trim(),
+                            isi: matches[2].replace(/^"|"$/g, '').trim()
                         };
                     }
                     return null;
@@ -150,7 +131,7 @@
 
                 renderPage();
             } catch (error) {
-                console.error("Error Lur: ", error);
+                console.error("Waduh Error Lur: ", error);
                 document.getElementById('announcement-list').innerHTML = "Gagal memuat data, Lur.";
             }
         }
@@ -170,12 +151,12 @@
 
             pageData.forEach(item => {
                 list.innerHTML += `
-                <div class="post">
-                    <div class="post-date">${item.tanggal}</div>
-                    <h2 class="post-title" style="color: #4A90E2; font-family: 'Fredoka One';">${item.judul}</h2>
-                    <p>${item.isi}</p>
-                </div>
-            `;
+                    <div class="post">
+                        <div class="post-date">${item.tanggal}</div>
+                        <h2 class="post-title">${item.judul}</h2>
+                        <p>${item.isi}</p>
+                    </div>
+                `;
             });
 
             document.getElementById('prevBtn').disabled = currentPage === 1;
