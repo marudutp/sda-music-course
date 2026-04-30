@@ -109,15 +109,17 @@
                 const response = await fetch(spreadsheetUrl);
                 const data = await response.text();
 
-                // Menggunakan Regex untuk memisahkan CSV agar teks di dalam tanda kutip tidak terpotong koma
+                // Memisahkan baris, abaikan baris pertama (header)
                 const rows = data.split(/\r?\n/).slice(1);
 
                 allData = rows.map(row => {
-                    // Regex ajaib untuk memisahkan koma tapi mengabaikan koma di dalam tanda kutip
-                    const columns = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+                    // Teknik parsing CSV sederhana: memisahkan berdasarkan ","
+                    // Namun kita bersihkan tanda kutip manual agar teks utuh
+                    const columns = row.split('","');
 
-                    if (columns && columns.length >= 3) {
+                    if (columns.length >= 3) {
                         return {
+                            // Membersihkan sisa tanda kutip di awal dan akhir kolom
                             tanggal: columns[0].replace(/"/g, ''),
                             judul: columns[1].replace(/"/g, ''),
                             isi: columns[2].replace(/"/g, '')
@@ -128,7 +130,7 @@
 
                 renderPage();
             } catch (error) {
-                console.error(error);
+                console.error("Error Lur: ", error);
                 document.getElementById('announcement-list').innerHTML = "Gagal memuat data, Lur.";
             }
         }
