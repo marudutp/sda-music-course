@@ -370,10 +370,10 @@
         <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
             <a href="https://wa.me/6281911009370" class="btn-wa">Hubungi Kami di WhatsApp 📱</a>
 
-            <a href="https://edutrack.pro/parent/?id=sda-music&from=https://sda-music.com" 
-           class="btn-wa" style="background-color: var(--primary-blue); box-shadow: 0 8px 0px #2980b9;">
-           Monitoring Murid 🔍
-        </a>
+            <a href="https://edutrack.pro/parent/?id=sda-music&from=https://sda-music.com" class="btn-wa"
+                style="background-color: var(--primary-blue); box-shadow: 0 8px 0px #2980b9;">
+                Monitoring Murid 🔍
+            </a>
         </div>
     </section>
 
@@ -526,6 +526,7 @@
                 parent.classList.toggle('active');
             });
         });
+        trackVisitor(); // <--- TAMBAHKAN INI
 
         // Logic Slider Guru Otomatis (7 Detik)
         let currentSlide = 0;
@@ -534,6 +535,42 @@
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
+        }
+        async function trackVisitor() {
+            console.log("Agen Intel: Mulai melacak..."); // Cek di F12
+            try {
+                let userIp = 'Unknown';
+
+                // Coba ambil IP, kalau gagal (karena Adblock/Internet), lanjut terus
+                try {
+                    const res = await fetch('https://api.ipify.org?format=json');
+                    const data = await res.json();
+                    userIp = data.ip;
+                } catch (e) {
+                    console.log("Agen Intel: Gagal ambil IP, lanjut pake 'Unknown'");
+                }
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const source = urlParams.get('utm_source') || 'direct';
+
+                console.log("Agen Intel: Mengirim laporan untuk sumber:", source);
+
+                // Masukkan ke Supabase
+                const { error } = await _supabase.from('sda_visitor_logs').insert([{
+                    ip_address: userIp,
+                    user_agent: navigator.userAgent,
+                    referrer: document.referrer || 'none',
+                    utm_source: source
+                }]);
+
+                if (error) {
+                    console.error("Agen Intel: Laporan ditolak Supabase!", error.message);
+                } else {
+                    console.log("Agen Intel: Laporan BERHASIL masuk ke Cloud!");
+                }
+            } catch (err) {
+                console.error("Agen Intel: Error Fatal!", err);
+            }
         }
         setInterval(rotateTeachers, 7000);
     </script>
