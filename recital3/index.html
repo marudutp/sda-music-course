@@ -184,33 +184,70 @@
 </footer>
 
 <script>
-    // 1. DATA FOTO - Sesuaikan URL foto di sini untuk tiap file HTML
+    // 1. DATA FOTO - Jalur folder lokal disatukan ke "images/" (tanpa ../) agar tidak tersesat
     const recitalPhotos = [
-        { id: 1, src: 'images/recital1_01.jpg' }, { id: 2, src: 'images/recital1_02.jpg' },
-        { id: 3, src: 'images/recital1_03.jpg' }, { id: 4, src: 'images/recital1_04.jpg' },
-        { id: 5, src: 'images/recital1_05.jpg' }, { id: 6, src: 'images/recital1_06.jpg' },
-        { id: 7, src: 'images/recital1_07.jpg' }, { id: 8, src: 'images/recital1_08.jpg' },
-        { id: 9, src: 'images/recital1_09.jpg' }, { id: 10, src: 'images/recital1_10.jpg' },
-        { id: 11, src: 'images/recital1_11.jpg' }, { id: 12, src: 'images/recital1_12.jpg' } 
+        { id: 1, src: 'https://www.youtube.com/watch?v=I0XobkBWmvI' }, 
+        { id: 2, src: 'images/recital1_02.jpg' }, // Dipindah ke lokal untuk menghindari error cookie Drive
+        { id: 3, src: 'images/recital1_01.jpg' }, 
+        { id: 4, src: 'images/recital1_04.jpg' },
+        { id: 5, src: 'images/recital1_05.jpg' }, 
+        { id: 6, src: 'images/recital1_06.jpg' },
+        { id: 7, src: 'images/recital1_07.jpg' }, 
+        { id: 8, src: 'images/recital1_08.jpg' },
+        { id: 9, src: 'images/recital1_09.jpg' }, 
+        { id: 10, src: 'images/recital1_10.jpg' },
+        { id: 11, src: 'images/recital1_11.jpg' }, 
+        { id: 12, src: 'images/recital1_12.jpg' },
+        { id: 13, src: 'https://posts.gle/fiMNyZwBdtQ42AzG9' } // Contoh jika ingin memasang link Google Map Postingan
     ];
 
     const photosPerPage = 10;
     let currentPage = 1;
 
-    // 2. FUNGSI RENDER FOTO
+    // Fungsi pembantu mengekstrak ID YouTube secara otomatis
+    function getYouTubeId(url) {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    // 2. FUNGSI RENDER FOTO (Mendukung YouTube, Video Lokal, Google Maps Post, dan Foto Biasa)
     function renderPhotos() {
         const grid = document.getElementById('photo-grid');
-        grid.innerHTML = ""; // Bersihkan grid
+        grid.innerHTML = ""; 
 
         const start = (currentPage - 1) * photosPerPage;
         const end = start + photosPerPage;
         const currentItems = recitalPhotos.slice(start, end);
 
         currentItems.forEach(photo => {
+            const ytId = getYouTubeId(photo.src);
+            const isLocalVideo = photo.src.toLowerCase().endsWith('.mp4');
+            const isGooglePost = photo.src.toLowerCase().includes('posts.gle');
+            
+            let mediaTag = "";
+
+            if (ytId) {
+                const ytThumb = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+                mediaTag = `<div style="position: relative; width: 100%; height: 250px; cursor: pointer;" onclick="openModal('${photo.src}', 'youtube')">
+                                <img src="${ytThumb}" style="width: 100%; height: 250px; object-fit: cover; border-bottom: 4px solid var(--text-dark);" onerror="this.src='https://placehold.co/400x300?text=Video+Recital'">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,107,107,0.9); color: white; padding: 10px 15px; border-radius: 50%; font-size: 20px; border: 3px solid var(--text-dark); box-shadow: 4px 4px 0px var(--text-dark);">▶</div>
+                            </div>`;
+            } else if (isLocalVideo) {
+                mediaTag = `<video src="${photo.src}#t=0.1" preload="metadata" muted playsinline style="width: 100%; height: 250px; object-fit: cover; border-bottom: 4px solid var(--text-dark); cursor: pointer;" onclick="openModal('${photo.src}', 'video')"></video>`;
+            } else if (isGooglePost) {
+                mediaTag = `<div style="position: relative; width: 100%; height: 250px; cursor: pointer; background: #FFF;" onclick="window.open('${photo.src}', '_blank')">
+                                <img src="https://placehold.co/400x300/4A90E2/FFFFFF?text=Buka+Postingan+Google" style="width: 100%; height: 250px; object-fit: cover; border-bottom: 4px solid var(--text-dark);">
+                                <div style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); background: var(--accent-yellow); color: var(--text-dark); padding: 5px 15px; border-radius: 10px; font-weight: bold; font-size: 12px; border: 2px solid var(--text-dark); white-space: nowrap;">🔗 LIHAT DI MAPS</div>
+                            </div>`;
+            } else {
+                mediaTag = `<img src="${photo.src}" alt="Momen Recital" onerror="this.src='https://placehold.co/400x300?text=Foto+Recital'" style="cursor: pointer; width:100%; height:250px; object-fit:cover; border-bottom: 4px solid var(--text-dark);" onclick="openModal('${photo.src}', 'image')">`;
+            }
+
             const card = document.createElement('div');
             card.className = 'photo-card';
             card.innerHTML = `
-                <img src="${photo.src}" alt="Momen Recital" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Recital'">
+                ${mediaTag}
                 <div class="photo-info">
                     <button class="btn-action" onclick="toggleLike(this)">❤️ Like</button>
                     <button class="btn-action" onclick="shareLink('${photo.src}')">🔗 Share</button>
@@ -222,16 +259,13 @@
         updatePaginationUI();
     }
 
-    // 3. LOGIKA NAVIGASI
+    // 3. LOGIKA NAVIGASI PAGINATION
     function changePage(step) {
         const totalPages = Math.ceil(recitalPhotos.length / photosPerPage);
-        
-        // Cek jika klik Next di halaman terakhir
         if (step === 1 && currentPage === totalPages) {
             alert("Selesai, Lur! Ini adalah halaman terakhir. 😊");
             return;
         }
-
         currentPage += step;
         renderPhotos();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -240,31 +274,86 @@
     function updatePaginationUI() {
         const totalPages = Math.ceil(recitalPhotos.length / photosPerPage);
         document.getElementById('page-info').innerText = `Halaman ${currentPage} / ${totalPages}`;
-        
-        // Disable tombol Back jika di hal 1
         document.getElementById('prevBtn').disabled = (currentPage === 1);
     }
 
     // 4. FITUR LIKE & SHARE
     function toggleLike(btn) {
         btn.classList.toggle('liked');
-        if(btn.classList.contains('liked')) {
-            btn.innerText = "❤️ Liked!";
-        } else {
-            btn.innerText = "❤️ Like";
-        }
+        btn.innerText = btn.classList.contains('liked') ? "❤️ Liked!" : "❤️ Like";
     }
 
+    // Mendukung penyalinan tautan lokal maupun tautan eksternal (YouTube/Maps)
     function shareLink(imgSrc) {
-        // Simulasi copy link foto
-        const dummyUrl = window.location.origin + "/" + imgSrc;
+        const dummyUrl = imgSrc.startsWith('http') ? imgSrc : window.location.origin + "/" + imgSrc;
         navigator.clipboard.writeText(dummyUrl).then(() => {
-            alert("Link foto berhasil disalin, Lur! Siap dibagikan ke WA.");
+            alert("Link berhasil disalin, Lur! Siap dibagikan ke WA.");
         });
     }
 
-    // Jalankan saat pertama load
-    document.addEventListener('DOMContentLoaded', renderPhotos);
+    // 5. FITUR DYNAMIC POP-UP MODAL (Injeksi otomatis via JavaScript)
+    function createModalSystem() {
+        if (document.getElementById('mediaModal')) return;
+        
+        const modal = document.createElement('div');
+        modal.id = 'mediaModal';
+        modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.3s ease;';
+        modal.onclick = closeModal;
+
+        const container = document.createElement('div');
+        container.style.cssText = 'width: 90%; max-width: 800px; height: 500px; max-height: 85vh; display: flex; justify-content: center; align-items: center;';
+        container.onclick = (e) => e.stopPropagation();
+
+        modal.appendChild(container);
+        document.body.appendChild(modal);
+    }
+
+    function openModal(src, mediaType) {
+        const modal = document.getElementById('mediaModal');
+        const container = modal.firstChild;
+        container.innerHTML = ''; 
+
+        if (mediaType === 'youtube') {
+            const ytId = getYouTubeId(src);
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1`;
+            iframe.setAttribute('allow', 'autoplay; encrypted-media');
+            iframe.setAttribute('allowfullscreen', 'true');
+            iframe.style.cssText = 'width: 100%; height: 100%; border: 4px solid var(--text-dark); border-radius: 20px; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);';
+            container.appendChild(iframe);
+        } else if (mediaType === 'video') {
+            const video = document.createElement('video');
+            video.src = src;
+            video.controls = true;
+            video.autoplay = true;
+            video.style.cssText = 'max-width: 100%; max-height: 100%; border: 4px solid var(--text-dark); border-radius: 20px; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);';
+            container.appendChild(video);
+        } else {
+            const img = document.createElement('img');
+            img.src = src;
+            img.style.cssText = 'max-width: 100%; max-height: 100%; border: 4px solid var(--text-dark); border-radius: 20px; object-fit: contain; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.5);';
+            container.appendChild(img);
+        }
+
+        modal.style.display = 'flex';
+        setTimeout(() => { modal.style.opacity = '1'; }, 10);
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('mediaModal');
+        if (!modal) return;
+        modal.style.opacity = '0';
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.firstChild.innerHTML = ''; // Membersihkan konten agar video otomatis berhenti berputar
+        }, 300);
+    }
+
+    // Menjalankan inisialisasi sistem galeri saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', () => {
+        createModalSystem(); 
+        renderPhotos();
+    });
 </script>
 
 </body>

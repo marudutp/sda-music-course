@@ -197,7 +197,7 @@
     const photosPerPage = 10;
     let currentPage = 1;
 
-    // 2. FUNGSI RENDER FOTO
+    // 2. FUNGSI RENDER FOTO (Update: Tambah pemicu klik pop-up)
     function renderPhotos() {
         const grid = document.getElementById('photo-grid');
         grid.innerHTML = ""; // Bersihkan grid
@@ -207,10 +207,17 @@
         const currentItems = recitalPhotos.slice(start, end);
 
         currentItems.forEach(photo => {
+            const isVideo = photo.src.toLowerCase().endsWith('.mp4');
+            
+            // Ditambahkan properti cursor:pointer dan event onclick untuk memicu pop-up
+            const mediaTag = isVideo 
+                ? `<video src="${photo.src}#t=0.1" preload="metadata" muted playsinline style="width: 100%; height: 250px; object-fit: cover; border-bottom: 4px solid var(--text-dark); cursor: pointer;" onclick="openModal('${photo.src}', true)"></video>`
+                : `<img src="${photo.src}" alt="Momen Recital" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Recital'" style="cursor: pointer;" onclick="openModal('${photo.src}', false)">`;
+
             const card = document.createElement('div');
             card.className = 'photo-card';
             card.innerHTML = `
-                <img src="${photo.src}" alt="Momen Recital" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Recital'">
+                ${mediaTag}
                 <div class="photo-info">
                     <button class="btn-action" onclick="toggleLike(this)">❤️ Like</button>
                     <button class="btn-action" onclick="shareLink('${photo.src}')">🔗 Share</button>
@@ -263,8 +270,63 @@
         });
     }
 
-    // Jalankan saat pertama load
-    document.addEventListener('DOMContentLoaded', renderPhotos);
+    // 5. FITUR POP-UP MODAL (Fungsi Baru Tanpa Merusak Kode Lain)
+    function createModalSystem() {
+        if (document.getElementById('mediaModal')) return;
+        
+        // Membuat wrapper latar hitam pop-up
+        const modal = document.createElement('div');
+        modal.id = 'mediaModal';
+        modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.3s ease;';
+        modal.onclick = closeModal;
+
+        // Container konten media
+        const container = document.createElement('div');
+        container.style.cssText = 'max-width: 90%; max-height: 85vh; display: flex; justify-content: center; align-items: center;';
+        container.onclick = (e) => e.stopPropagation(); // Biar kalau gambarnya diklik, pop-up gak mendadak nutup
+
+        modal.appendChild(container);
+        document.body.appendChild(modal);
+    }
+
+    function openModal(src, isVideo) {
+        const modal = document.getElementById('mediaModal');
+        const container = modal.firstChild;
+        container.innerHTML = ''; // Bersihkan sisa media sebelumnya
+
+        if (isVideo) {
+            const video = document.createElement('video');
+            video.src = src;
+            video.controls = true;
+            video.autoplay = true;
+            video.style.cssText = 'max-width: 100%; max-height: 85vh; border: 4px solid var(--text-dark); border-radius: 20px; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);';
+            container.appendChild(video);
+        } else {
+            const img = document.createElement('img');
+            img.src = src;
+            img.style.cssText = 'max-width: 100%; max-height: 85vh; border: 4px solid var(--text-dark); border-radius: 20px; object-fit: contain; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.5);';
+            container.appendChild(img);
+        }
+
+        modal.style.display = 'flex';
+        setTimeout(() => { modal.style.opacity = '1'; }, 10);
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('mediaModal');
+        if (!modal) return;
+        modal.style.opacity = '0';
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.firstChild.innerHTML = ''; // Menghapus elemen video/img agar streaming/suara video langsung mati total
+        }, 300);
+    }
+
+    // Jalankan sistem saat pertama kali load halaman
+    document.addEventListener('DOMContentLoaded', () => {
+        createModalSystem(); // Injeksi elemen pop-up secara aman
+        renderPhotos();
+    });
 </script>
 
 </body>
