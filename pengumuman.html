@@ -99,7 +99,7 @@
     </div>
 
     <script>
-        // GANTI DENGAN LINK CSV GOOGLE SHEETS KAMU LUR
+        // LINK CSV GOOGLE SHEETS KAMU LUR
         const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSJp2RZUbJ5DYvRkQIUlMgia__-rqzJ561BQXPvB-U60-zYYv__K7AqCxSos--n3qBWFydp8wtmgbeK/pub?output=csv';
         
         let allData = [];
@@ -123,6 +123,16 @@
                 }
                 parts.push(part.trim().replace(/^"|"$/g, ''));
                 return parts;
+            });
+        }
+
+        // FUNGSI SAKTI: Otomatis mendeteksi pola [Teks: Link] dari Google Sheets dan mengubahnya jadi HTML Link
+        function parseTextToHtmlLinks(text) {
+            if (!text) return "";
+            
+            // Regex ini akan mencari pola teks di dalam kurung siku yang dipisah tanda titik dua, contoh -> [Klik Sini: http://...]
+            return text.replace(/\[([^\]\:]+)\:\s*(https?:\/\/[^\s\]]+)\]/g, function(match, label, url) {
+                return `<a href="${url}" style="color: var(--primary-blue); text-decoration: underline; font-weight: bold;" target="_blank">${label}</a>`;
             });
         }
 
@@ -166,11 +176,14 @@
             }
 
             pageData.forEach(item => {
+                // Proses isi dari Google Sheet lewat fungsi pencari link otomatis sebelum ditampilkan
+                const kontenTerfilter = parseTextToHtmlLinks(item.isi);
+
                 list.innerHTML += `
                     <div class="post">
                         <span class="post-date">${item.tanggal}</span>
                         <h2 class="post-title">${item.judul}</h2>
-                        <div class="post-content">${item.isi}</div>
+                        <div class="post-content">${kontenTerfilter}</div>
                     </div>
                 `;
             });
